@@ -20,7 +20,6 @@ User
 → MCP Tools (external integrations)
 → Final Answer
 
-
 ⚙️ Key Features
 🔹 Multi-Agent System
 Main Agent → decides what to do
@@ -66,20 +65,18 @@ Tools used
 Cache status
 Debug info
 
-
 🛠️ Tech Stack
-Category	Technology
-AI / Agents	OpenAI Agents SDK
-LLM	OpenAI GPT-4.1
-Vector DB	Qdrant
-Keyword Search	BM25 (rank-bm25)
-Graph DB	Neo4j
-Cache	Redis + RedisVL
-Memory	JSON-based storage
-UI	Streamlit
-Embeddings	sentence-transformers
-Tool Protocol	MCP
-
+Category Technology
+AI / Agents OpenAI Agents SDK
+LLM OpenAI GPT-4.1
+Vector DB Qdrant
+Keyword Search BM25 (rank-bm25)
+Graph DB Neo4j
+Cache Redis + RedisVL
+Memory JSON-based storage
+UI Streamlit
+Embeddings sentence-transformers
+Tool Protocol MCP
 
 🧪 Example Capabilities
 Concept Explanation
@@ -113,13 +110,11 @@ NEO4J_URI=bolt://localhost:7687
 NEO4J_USERNAME=neo4j
 NEO4J_PASSWORD=password
 
-
 ▶️ Run the App
 Terminal Mode
 python -m app.main
 UI Mode
 streamlit run ui.py
-
 
 📌 Project Structure
 app/
@@ -151,7 +146,6 @@ This project demonstrates:
 ✔ Tool orchestration (MCP)
 ✔ Memory-driven personalization
 ✔ Production-ready system thinking
-
 
 🏁 Future Improvements
 Multi-user memory support

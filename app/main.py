@@ -14,7 +14,7 @@ from app.memory import store_memory, get_memory
 from app.semantic_cache import check_semantic_cache, save_semantic_cache
 from app.mcp_client import get_project_overview_from_mcp, get_project_stack_from_mcp
 from app.graph_seed import seed_project_graph
-from app.graph_db import get_project_relationships, get_entity_relationships
+# from app.graph_db import get_project_relationships, get_entity_relationships
 from app.cache_policy import should_cache_response, build_cache_metadata
 from app.hybrid_retrieval import hybrid_search
 
@@ -24,16 +24,16 @@ settings = get_settings()
 client = AsyncOpenAI(api_key=settings.openai_api_key)
 set_default_openai_client(client)
 
-@function_tool
-def query_project_graph() -> str:
-    print("TOOL USED: query_project_graph")
-    return get_project_relationships()
+# @function_tool
+# def query_project_graph() -> str:
+#     print("TOOL USED: query_project_graph")
+#     return get_project_relationships()
 
 
-@function_tool
-def query_entity_graph(entity_name: str) -> str:
-    print("TOOL USED: query_entity_graph")
-    return get_entity_relationships(entity_name)
+# @function_tool
+# def query_entity_graph(entity_name: str) -> str:
+#     print("TOOL USED: query_entity_graph")
+#     return get_entity_relationships(entity_name)
 
 @function_tool
 def save_user_preference(key: str, value: str) -> str:
@@ -119,8 +119,8 @@ def build_agent() -> Agent:
     mcp_project_stack,
     save_user_preference,
     load_user_memory,
-    query_project_graph,
-    query_entity_graph,
+    # query_project_graph,
+    # query_entity_graph,
 ],
         model="gpt-4.1",
     )
@@ -133,8 +133,8 @@ async def run_app() -> None:
     print("STEP 2: Seeding documents")
     seed_documents()
 
-    print("STEP 2.5: Seeding graph database")
-    seed_project_graph()
+    # print("STEP 2.5: Seeding graph database")
+    # seed_project_graph()
 
     print("STEP 3: Building agent")
     agent = build_agent()
