@@ -1,0 +1,13 @@
+openai
+openai-agents
+mcp
+qdrant-client
+fastembed
+redis
+redisvl
+sentence-transformers
+rank-bm25
+neo4j
+pydantic
+python-dotenv
+streamlit
