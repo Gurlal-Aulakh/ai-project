@@ -1,3 +1,17 @@
 docker run -d -p 6379:6379 redis
 docker run --name neo4j-ai-project -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/password123 -d neo4j:latest
 streamlit run ui.py
+
+GIT
+
+-----------------------------------------
+
+git init
+git add .
+git commit -m "Initial AI assistant project"
+
+git remote add origin https://github.com/your-username/ai-project.git
+git branch -M main
+git push -u origin main
+
+------------------------------------------
