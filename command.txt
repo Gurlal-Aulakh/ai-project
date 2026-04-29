@@ -15,3 +15,13 @@ git branch -M main
 git push -u origin main
 
 ------------------------------------------
+
+git status
+git checkout -b deploy-free-tier
+git add .
+git commit -m "Initial deployment setup"
+git push -u origin deploy-free-tier
+
+------------------------------------------
+
+streamlit run ui.py --server.port $PORT --server.address 0.0.0.0
