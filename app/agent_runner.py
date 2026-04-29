@@ -6,16 +6,13 @@ from agents import Agent, Runner, function_tool, set_default_openai_client
 from app.config import get_settings
 from app.prompts import load_prompt
 from app.retrieval import setup_collection
-# from app.graph_seed import seed_project_graph
 from app.cache import get_cached_value, set_cached_value
 from app.hybrid_retrieval import hybrid_search
-from app.semantic_cache import check_semantic_cache, save_semantic_cache
 from app.cache_policy import should_cache_response, build_cache_metadata
 
 from app.workers import run_concept_agent, run_project_agent
 from app.mcp_client import get_project_overview_from_mcp, get_project_stack_from_mcp
 from app.memory import store_memory, get_memory
-# from app.graph_db import get_project_relationships, get_entity_relationships
 
 os.environ["OPENAI_AGENTS_DISABLE_TRACING"] = "0"
 
@@ -28,7 +25,7 @@ set_default_openai_client(client)
 def retrieve_context(query: str) -> str:
     print("TOOL USED: retrieve_context")
 
-    cache_key = f"retrieval:{query}"
+    cache_key = f"retrieval:{query.lower().strip()}"
     cached = get_cached_value(cache_key)
 
     if cached:
@@ -86,18 +83,6 @@ def load_user_memory() -> str:
     return str(get_memory())
 
 
-# @function_tool
-# def query_project_graph() -> str:
-#     print("TOOL USED: query_project_graph")
-#     return get_project_relationships()
-
-
-# @function_tool
-# def query_entity_graph(entity_name: str) -> str:
-#     print("TOOL USED: query_entity_graph")
-#     return get_entity_relationships(entity_name)
-
-
 def build_agent() -> Agent:
     instructions = load_prompt("main_agent.v1.txt")
 
@@ -112,8 +97,6 @@ def build_agent() -> Agent:
             mcp_project_stack,
             save_user_preference,
             load_user_memory,
-            # query_project_graph,
-            # query_entity_graph,
         ],
         model="gpt-4.1",
     )
@@ -138,16 +121,16 @@ def extract_tools_used(result) -> list[str]:
 
 async def run_ai_assistant(user_input: str) -> dict:
     setup_collection()
-    # seed_project_graph()
 
-    cached_answer = check_semantic_cache(user_input)
+    final_cache_key = f"final_answer:{user_input.lower().strip()}"
+    cached_answer = get_cached_value(final_cache_key)
 
     if cached_answer:
         return {
             "answer": cached_answer,
-            "cache_status": "HIT",
+            "cache_status": "REDIS HIT",
             "tools_used": [],
-            "debug": "Returned from semantic cache.",
+            "debug": "Returned from normal Redis cache.",
         }
 
     agent = build_agent()
@@ -166,7 +149,6 @@ Steps you MUST follow:
    - Concept question → ask_concept_agent
    - Project question → ask_project_agent
    - Tool question → MCP
-   - Relationship question → graph tools
 5. Final answer must be grounded in retrieved context.
 
 Answer clearly for a beginner.
@@ -176,19 +158,17 @@ Answer clearly for a beginner.
     tools_used = extract_tools_used(result)
     metadata = build_cache_metadata(user_input, tools_used)
 
-    cache_status = "MISS"
-
     if should_cache_response(tools_used):
-        save_semantic_cache(user_input, result.final_output, metadata=metadata)
-        cache_status = "MISS → SAVED"
+        set_cached_value(final_cache_key, result.final_output, ttl_seconds=3600)
+        cache_status = "REDIS MISS → SAVED"
     else:
-        cache_status = "MISS → NOT SAVED"
+        cache_status = "REDIS MISS → NOT SAVED"
 
     return {
         "answer": result.final_output,
         "cache_status": cache_status,
         "tools_used": tools_used,
-        "debug": str(result),
+        "debug": f"Tools used: {tools_used}\nMetadata: {metadata}\n\n{str(result)}",
     }
 
 
