@@ -11,10 +11,9 @@ class Settings(BaseModel):
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_username: str = "neo4j"
     neo4j_password: str = "password123"
-    qdrant_url: str
-    qdrant_api_key: str
+    qdrant_url: str = ""
+    qdrant_api_key: str = ""
     qdrant_collection_name: str = "ai_project_docs"
-
 
 def get_settings() -> Settings:
     return Settings(
