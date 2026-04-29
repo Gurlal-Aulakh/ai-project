@@ -6,7 +6,7 @@ from agents import Agent, Runner, function_tool, set_default_openai_client
 from app.config import get_settings
 from app.prompts import load_prompt
 from app.retrieval import setup_collection
-from app.graph_seed import seed_project_graph
+# from app.graph_seed import seed_project_graph
 from app.cache import get_cached_value, set_cached_value
 from app.hybrid_retrieval import hybrid_search
 from app.semantic_cache import check_semantic_cache, save_semantic_cache
@@ -15,7 +15,7 @@ from app.cache_policy import should_cache_response, build_cache_metadata
 from app.workers import run_concept_agent, run_project_agent
 from app.mcp_client import get_project_overview_from_mcp, get_project_stack_from_mcp
 from app.memory import store_memory, get_memory
-from app.graph_db import get_project_relationships, get_entity_relationships
+# from app.graph_db import get_project_relationships, get_entity_relationships
 
 os.environ["OPENAI_AGENTS_DISABLE_TRACING"] = "0"
 
@@ -86,16 +86,16 @@ def load_user_memory() -> str:
     return str(get_memory())
 
 
-@function_tool
-def query_project_graph() -> str:
-    print("TOOL USED: query_project_graph")
-    return get_project_relationships()
+# @function_tool
+# def query_project_graph() -> str:
+#     print("TOOL USED: query_project_graph")
+#     return get_project_relationships()
 
 
-@function_tool
-def query_entity_graph(entity_name: str) -> str:
-    print("TOOL USED: query_entity_graph")
-    return get_entity_relationships(entity_name)
+# @function_tool
+# def query_entity_graph(entity_name: str) -> str:
+#     print("TOOL USED: query_entity_graph")
+#     return get_entity_relationships(entity_name)
 
 
 def build_agent() -> Agent:
@@ -112,8 +112,8 @@ def build_agent() -> Agent:
             mcp_project_stack,
             save_user_preference,
             load_user_memory,
-            query_project_graph,
-            query_entity_graph,
+            # query_project_graph,
+            # query_entity_graph,
         ],
         model="gpt-4.1",
     )
@@ -138,7 +138,7 @@ def extract_tools_used(result) -> list[str]:
 
 async def run_ai_assistant(user_input: str) -> dict:
     setup_collection()
-    seed_project_graph()
+    # seed_project_graph()
 
     cached_answer = check_semantic_cache(user_input)
 

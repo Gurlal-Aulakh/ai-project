@@ -13,7 +13,7 @@ from app.cache import get_cached_value, set_cached_value
 from app.memory import store_memory, get_memory
 from app.semantic_cache import check_semantic_cache, save_semantic_cache
 from app.mcp_client import get_project_overview_from_mcp, get_project_stack_from_mcp
-from app.graph_seed import seed_project_graph
+# from app.graph_seed import seed_project_graph
 # from app.graph_db import get_project_relationships, get_entity_relationships
 from app.cache_policy import should_cache_response, build_cache_metadata
 from app.hybrid_retrieval import hybrid_search

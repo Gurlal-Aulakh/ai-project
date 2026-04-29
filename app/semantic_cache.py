@@ -1,6 +1,6 @@
 from redisvl.extensions.cache.llm import SemanticCache
 from redisvl.utils.vectorize import HFTextVectorizer
-
+import os
 from app.config import get_settings
 
 settings = get_settings()
@@ -9,7 +9,10 @@ semantic_cache = SemanticCache(
     name="ai_project_semantic_cache",
     redis_url=settings.redis_url,
     distance_threshold=0.15,
-    vectorizer=HFTextVectorizer("redis/langcache-embed-v1"),
+    vectorizer=HFTextVectorizer(
+        model="redis/langcache-embed-v1",
+        token=os.getenv("HF_TOKEN"),   
+    ),
 )
 
 
