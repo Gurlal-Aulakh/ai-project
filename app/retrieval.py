@@ -1,13 +1,20 @@
+import os
 from qdrant_client import QdrantClient, models
 from fastembed import TextEmbedding
+from app.config import get_settings
 
-COLLECTION_NAME = "docs"
+
+settings = get_settings()
+
+
+COLLECTION_NAME = settings.qdrant_collection_name
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
 # client = QdrantClient(":memory:")
-QdrantClient(
-    url=os.getenv("QDRANT_URL"),
-    api_key=os.getenv("QDRANT_API_KEY"),
+
+client = QdrantClient(
+    url=settings.qdrant_url,
+    api_key=settings.qdrant_api_key,
 )
 embedding_model = TextEmbedding(model_name=MODEL_NAME)
 
