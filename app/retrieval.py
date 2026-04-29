@@ -4,7 +4,11 @@ from fastembed import TextEmbedding
 COLLECTION_NAME = "docs"
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
-client = QdrantClient(":memory:")
+# client = QdrantClient(":memory:")
+QdrantClient(
+    url=os.getenv("QDRANT_URL"),
+    api_key=os.getenv("QDRANT_API_KEY"),
+)
 embedding_model = TextEmbedding(model_name=MODEL_NAME)
 
 
