@@ -4,10 +4,7 @@ openai-agents
 mcp
 qdrant-client
 fastembed
-redis
-redisvl
-sentence-transformers
 rank-bm25
 pydantic
 python-dotenv
-huggingface_hub
+redis
